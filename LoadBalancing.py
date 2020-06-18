@@ -5,8 +5,10 @@ from os import path,remove
 from heapq import heapify, heappush, heappop
 
 BASE_FILE_PATH = 'Files/'
-SERVER_FILE_PATH = BASE_FILE_PATH + 'server.txt'
-INITIAL_FILE_PATH = BASE_FILE_PATH + 'initial.txt'
+SERVER_FILE_PATH = BASE_FILE_PATH + 'server.txt' # File used for saving current state of MaxHeap
+INITIAL_FILE_PATH = BASE_FILE_PATH + 'initial.txt' # File used to restore initial state of MaxHeap
+RESULT_FILE_PATH = BASE_FILE_PATH + 'result.txt' # File used to save the console output
+
 
 class MaxHeap:
     def __init__(self):
@@ -43,6 +45,12 @@ def write_file(file_name, content):
     with open(file_name, 'w') as writer:
         writer.write(content)
 
+def append_file(file_name, content):
+    with open(file_name, 'a+') as writer:
+        writer.write(content)
+
+def delete_file(file_name):
+    remove(file_name)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -56,6 +64,7 @@ if __name__ == "__main__":
         if 'reset' == arguments[1]:
             write_file(INITIAL_FILE_PATH, [])
             write_file(SERVER_FILE_PATH,[])
+            delete_file(RESULT_FILE_PATH)
         else:
             max_heap = MaxHeap()
             # check if initial.txt is empty
@@ -69,6 +78,7 @@ if __name__ == "__main__":
                     write_file(INITIAL_FILE_PATH, max_heap.getHeap())
                     x, y = max_heap.deleteMax()
                     print(y)
+                    append_file(RESULT_FILE_PATH, y+"\n")
                     x+=1
                     if x < 0:
                         max_heap.add([x,y])
@@ -83,6 +93,7 @@ if __name__ == "__main__":
                         max_heap.add([-int(y), x])
                     x, y = max_heap.deleteMax()
                     print(y)
+                    append_file(RESULT_FILE_PATH, y+"\n")
                     x+=1
                     if x < 0:
                         max_heap.add([x,y])
@@ -94,6 +105,7 @@ if __name__ == "__main__":
                         max_heap.add([x, y])
                     x, y = max_heap.deleteMax()
                     print(y)
+                    append_file(RESULT_FILE_PATH, y+"\n")
                     x+=1
                     if x < 0:
                         max_heap.add([x,y])
