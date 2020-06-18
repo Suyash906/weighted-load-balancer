@@ -9,8 +9,8 @@
 - For each request the following operations are performed - 
     - Pop the max entry from MaxHeap.
     - Output the sever name on console and also save it in result.txt file.
-    - Reduce the capacity and save it in server.txt if the capacity is above 0.
-- An additional file initial.txt has been used to save the initial state of the server. After the all the elements are popped out from the MaxHeap the initial state of the load balancer is restored with the help of this file. This gives a cyclic nature to the load balancer
+    - Reduce the capacity of the entry popped out and push it in MaxHeap again if the capacity is above 0.
+- An additional file initial.txt has been used to save the initial state of the server. After the all the elements are popped out from the MaxHeap, the initial state of the load balancer is restored with the help of initial.txt file. This gives a cyclic nature to the load balancer.
 
 ### Steps to run test cases
 - Clear the previous configuration to run a new test case
