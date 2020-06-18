@@ -19,10 +19,7 @@ class MaxHeap:
         return self.heap[0]
     
     def deleteMax(self):
-        print('deleteMax')
-        print(self.heap)
         element = heappop(self.heap)
-        print(element)
         return element
     
     def getHeap(self):
@@ -30,30 +27,6 @@ class MaxHeap:
 
     def isEmpty(self):
         return True if len(self.heap) ==0 else False
-
-class JsonHelper:
-    def json_decode(self, input):
-        pass
-    def json_encode(self, input):
-        pass
-    def _isValidJson(self, input):
-        try:
-            json_object = json.loads(input)
-        except ValueError as e:
-            return False
-        return True
-
-class FileHelper:
-    def __init__(self, file_name):
-        self.file_name = file_name
-    def readFile(self):
-        content = []
-        with open(self.file_name, 'r') as reader:
-            content.append(reader.read())
-        res = ''
-        if content is not None and len(content) > 0:
-            res = json.loads(content[0])
-        return res
 
 def read_file(file_name):
     content = []
@@ -71,11 +44,7 @@ def write_file(file_name, content):
         writer.write(content)
 
 
-
-
 if __name__ == "__main__":
-    # print ('Number of arguments:', len(sys.argv), 'arguments.')
-    # print ('Argument List:', str(sys.argv))
     if len(sys.argv) < 2:
         print('\nNo arguments passed!! Please add some arguments\n')
         print('1. Reset the load balancer to change the load balancer configuration')
@@ -109,7 +78,6 @@ if __name__ == "__main__":
                     load_balancer_details = read_file(SERVER_FILE_PATH)
                 if load_balancer_details is None or len(load_balancer_details) == 0: # check if server file is not empty
                     server_data = read_file(INITIAL_FILE_PATH)
-                    print(server_data)
                     for curr in server_data:
                         x, y = curr.split(':')
                         max_heap.add([-int(y), x])
@@ -121,7 +89,6 @@ if __name__ == "__main__":
                     write_file(SERVER_FILE_PATH, max_heap.getHeap())
                 else:
                     server_data = read_file(SERVER_FILE_PATH)
-                    # print(server_data)
                     for curr in server_data:
                         x, y = curr
                         max_heap.add([x, y])
