@@ -1,7 +1,7 @@
 import json
 import sys
 import os.path
-from os import path
+from os import path,remove
 from heapq import heapify, heappush, heappop
 
 BASE_FILE_PATH = 'Files/'
@@ -19,8 +19,11 @@ class MaxHeap:
         return self.heap[0]
     
     def deleteMax(self):
-        x = heappop(self.heap)
-        return x
+        print('deleteMax')
+        print(self.heap)
+        element = heappop(self.heap)
+        print(element)
+        return element
     
     def getHeap(self):
         return self.heap
@@ -62,6 +65,7 @@ def read_file(file_name):
     return res
 
 def write_file(file_name, content):
+    if path.exists(file_name):remove(file_name)
     content = json.dumps(content)
     with open(file_name, 'w') as writer:
         writer.write(content)
@@ -85,31 +89,47 @@ if __name__ == "__main__":
             write_file(SERVER_FILE_PATH,[])
         else:
             max_heap = MaxHeap()
-            load_balancer_details = None
-            if path.exists(SERVER_FILE_PATH):
-                load_balancer_details = read_file(SERVER_FILE_PATH)
-            if load_balancer_details is None: # file is created for the first time
-                server_data = arguments[1:]
-                for curr in server_data:
-                    x, y = curr.split(':')
-                    max_heap.add([-int(y), x])
-                write_file(INITIAL_FILE_PATH, max_heap.getHeap())
-                write_file(SERVER_FILE_PATH, max_heap.getHeap())
-            elif len(load_balancer_details) == 0: # server.txt goes empty
-                server_data = read_file(INITIAL_FILE_PATH)
-                for curr in server_data:
-                    x, y = curr.split(':')
-                    max_heap.add([-int(y), x])
-                write_file(SERVER_FILE_PATH, max_heap.getHeap())
-            else: 
-                server_data = read_file(SERVER_FILE_PATH)
-                print(server_data)
-                for curr in server_data:
-                    x, y = curr
-                    max_heap.add([-int(x), y])
-                x, y = max_heap.deleteMax()
-                print(y)
-                x+=1
-                if x > 0:
-                    max_heap.add([x,y])
-                write_file(SERVER_FILE_PATH,max_heap.getHeap())
+            # check if initial.txt is empty
+            if path.exists(INITIAL_FILE_PATH):
+                initial_load_balancer_details = read_file(SERVER_FILE_PATH)
+            if initial_load_balancer_details is None or len(initial_load_balancer_details) == 0:
+                    server_data = arguments[1:]
+                    for curr in server_data:
+                        x, y = curr.split(':')
+                        max_heap.add([-int(y), x])
+                    write_file(INITIAL_FILE_PATH, max_heap.getHeap())
+                    x, y = max_heap.deleteMax()
+                    print(y)
+                    x+=1
+                    if x < 0:
+                        max_heap.add([x,y])
+                    write_file(SERVER_FILE_PATH, max_heap.getHeap())
+            else:
+                if path.exists(SERVER_FILE_PATH):
+                    load_balancer_details = read_file(SERVER_FILE_PATH)
+                if load_balancer_details is None or len(load_balancer_details) == 0: # check if server file is not empty
+                    server_data = read_file(INITIAL_FILE_PATH)
+                    print(server_data)
+                    for curr in server_data:
+                        x, y = curr.split(':')
+                        max_heap.add([-int(y), x])
+                    x, y = max_heap.deleteMax()
+                    print(y)
+                    x+=1
+                    if x < 0:
+                        max_heap.add([x,y])
+                    write_file(SERVER_FILE_PATH, max_heap.getHeap())
+                else:
+                    print('else')
+                    server_data = read_file(SERVER_FILE_PATH)
+                    print(server_data)
+                    for curr in server_data:
+                        x, y = curr
+                        max_heap.add([x, y])
+                    x, y = max_heap.deleteMax()
+                    print(y)
+                    x+=1
+                    print(x)
+                    if x < 0:
+                        max_heap.add([x,y])
+                    write_file(SERVER_FILE_PATH,max_heap.getHeap())
