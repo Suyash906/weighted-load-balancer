@@ -74,8 +74,8 @@ def write_file(file_name, content):
 
 
 if __name__ == "__main__":
-    print ('Number of arguments:', len(sys.argv), 'arguments.')
-    print ('Argument List:', str(sys.argv))
+    # print ('Number of arguments:', len(sys.argv), 'arguments.')
+    # print ('Argument List:', str(sys.argv))
     if len(sys.argv) < 2:
         print('\nNo arguments passed!! Please add some arguments\n')
         print('1. Reset the load balancer to change the load balancer configuration')
@@ -120,16 +120,14 @@ if __name__ == "__main__":
                         max_heap.add([x,y])
                     write_file(SERVER_FILE_PATH, max_heap.getHeap())
                 else:
-                    print('else')
                     server_data = read_file(SERVER_FILE_PATH)
-                    print(server_data)
+                    # print(server_data)
                     for curr in server_data:
                         x, y = curr
                         max_heap.add([x, y])
                     x, y = max_heap.deleteMax()
                     print(y)
                     x+=1
-                    print(x)
                     if x < 0:
                         max_heap.add([x,y])
                     write_file(SERVER_FILE_PATH,max_heap.getHeap())
