@@ -23,3 +23,5 @@
 ```
 
 ### Output Screenshot
+
+![alt text](https://github.com/Suyash906/weighted-load-balancer/blob/master/output/3.PNG)
